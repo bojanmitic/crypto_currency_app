@@ -61,12 +61,14 @@ const displayCurrencies = (arr) => {
     const percentChange24h = document.createElement("div");
     const percent24h = document.createElement('span');
     percent24h.textContent ="Change 24h: " + percent_change_24h + '%';
+    percent_change_24h > 0 ? percent24h.style.color ='green' : percent24h.style.color ='red';
     percentChange24h.appendChild(percent24h);
     singleCurrency.appendChild(percentChange24h);
     //percent change 7 days
     const percentChange7d = document.createElement("div");
     const percent7d = document.createElement('span');
-    percent7d.textContent ="Change 24h: " + percent_change_24h + '%';
+    percent7d.textContent ="Change 7 days: " + percent_change_7d + '%';
+    percent_change_7d > 0 ? percent7d.style.color ='green' : percent7d.style.color ='red';
     percentChange7d.appendChild(percent7d);
     singleCurrency.appendChild(percentChange7d);
 
@@ -82,7 +84,7 @@ document.getElementById('search').addEventListener('input', () => {
       const seacrhVal = document.getElementById('search').value;
       reset();
       if(seacrhVal){
-        const filterSearch = dataArr.filter((currency)=>{
+        const filterSearch = dataArr.slice(0).filter((currency)=>{
           return currency.name.toLowerCase().includes(seacrhVal.toLowerCase());
           }); 
           displayCurrencies(filterSearch);
@@ -101,14 +103,14 @@ document.getElementById('search').addEventListener('input', () => {
 
   document.getElementById('sortByPrice').addEventListener('click', ()=>{
     reset();
-    const sorted = dataArr.sort((a,b)=>{
+    const sorted = dataArr.slice(0).sort((a,b)=>{
       return b.price_usd - a.price_usd;
     });
     displayCurrencies(sorted);
   });
   document.getElementById('sortByName').addEventListener('click', ()=>{
     reset();
-    const sorted = dataArr.sort((a,b)=>{
+    const sorted = dataArr.slice(0).sort((a,b)=>{
       const nameA = a.name.toLowerCase();
       const nameB = b.name.toLowerCase();
       if(nameA<nameB){
@@ -119,12 +121,14 @@ document.getElementById('search').addEventListener('input', () => {
       }
       return 0;
     });
+    console.log(dataArr);
+    console.log(sorted);
     displayCurrencies(sorted);
   });
  
   document.getElementById('sortByRank').addEventListener('click', ()=>{
     reset();
-    const sortByRank = dataArr.sort((a,b) => {
+    const sortByRank = dataArr.slice(0).sort((a,b) => {
       return a.rank - b.rank;
     })
     displayCurrencies(sortByRank);
